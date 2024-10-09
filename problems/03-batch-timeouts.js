@@ -30,11 +30,34 @@ const timeoutObjs = batchTimeouts(tasks, delays);
 //  'WHAT?' after 900 ms
 
 console.log(timeoutObjs); // [ Timeout {...},  Timeout {...}, Timeout {...} ]
+
+take in an array of callbacks and delays
+need to run setTimeout for each function/delay pair
+we also need to store each calls' return value in a separate array and then return the arr
 ***********************************************************************/
 
 function batchTimeouts(callbacks, delays) {
-  // Your code here 
+  let timeoutIdArr = [];
+
+  callbacks.forEach((cb, i) => {
+    let timeoutId = setTimeout(cb, delays[i]);
+    timeoutIdArr.push(timeoutId)
+  })
+
+  return timeoutIdArr;
 }
+
+const sayHello = () => console.log('hi');
+const sayGoodbye = () => console.log('bye');
+const shout = () => console.log('WHAT?');
+const tasks = [sayHello, sayGoodbye, shout];
+const delays = [500, 200, 900];
+
+const timeoutObjs = batchTimeouts(tasks, delays); 
+// should print: 
+//  'bye' after 200 ms
+//  'hi' after 500 ms
+//  'WHAT?' after 900 ms
 
 /**************DO NOT MODIFY ANYTHING UNDER THIS  LINE*****************/
 try {
